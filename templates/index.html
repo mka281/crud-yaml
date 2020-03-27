@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1.0"
+    />
+    <title>Starter Template - Materialize</title>
+
+    <!-- CSS  -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="static/css/materialize.css"
+      type="text/css"
+      rel="stylesheet"
+      media="screen,projection"
+    />
+    <link
+      href="static/css/style.css"
+      type="text/css"
+      rel="stylesheet"
+      media="screen,projection"
+    />
+  </head>
+  <body>
+    <nav class="light-blue lighten-1" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="#" class="brand-logo">Logo</a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#">Navbar Link</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="sidenav">
+          <li><a href="#">Navbar Link</a></li>
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"
+          ><i class="material-icons">menu</i></a
+        >
+      </div>
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+      <div class="container">
+        <br /><br />
+        <h1 style="display: inline-block;" class="">
+          Organizations
+        </h1>
+        <a
+          style="margin-bottom: 27px; margin-left: 20px"
+          class="waves-effect waves-light green btn-small modal-trigger"
+          href="#add_modal"
+          >Add New</a
+        >
+
+        <table class="highlight">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in organizations %}
+            <tr data-id="{{loop.index0}}">
+              <td class="name">{{i.name}}</td>
+              <td class="description">{{i.description}}</td>
+              <td>
+                <!-- Modal Trigger -->
+                <a
+                  class="waves-effect waves-light btn-small modal-trigger update"
+                  href="#update_modal"
+                >
+                  Update
+                </a>
+              </td>
+              <td>
+                <form
+                  action="/organizations/{{loop.index0}}/delete"
+                  method="POST"
+                >
+                  <button class="btn red waves-effect waves-light btn-small">
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <br /><br />
+      </div>
+    </div>
+
+    <!-- Modal Structures -->
+    <div id="add_modal" class="modal">
+      <div class="modal-content">
+        <h4>New Organization</h4>
+        <form action="/organizations" method="POST">
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="name" name="name" type="text" class="validate" />
+              <label class="active" for="name">Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea
+                id="description"
+                name="description"
+                class="materialize-textarea"
+              ></textarea>
+              <label class="active" for="descriptiion">Description</label>
+            </div>
+          </div>
+          <button
+            class="waves-effect waves-light green btn-small modal-trigger"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+      <!-- <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">
+          Agree
+        </a>
+      </div> -->
+    </div>
+
+    <div id="update_modal" class="modal">
+      <div class="modal-content">
+        <h4>Update Organization</h4>
+        <form id="update_form" action="/organizations/" method="POST">
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="update_name" name="name" type="text" required />
+              <label class="active" for="name">Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea
+                id="update_description"
+                class="materialize-textarea"
+                name="description"
+              ></textarea>
+              <label class="active" for="descriptiion">Description</label>
+            </div>
+          </div>
+          <button
+            class="waves-effect waves-light green btn-small modal-trigger"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+      <!-- <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">
+          Agree
+        </a>
+      </div> -->
+    </div>
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="static/js/materialize.js"></script>
+    <script src="static/js/init.js"></script>
+  </body>
+</html>
