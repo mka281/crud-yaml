@@ -5,31 +5,17 @@ yaml = YAML()
 
 
 @app.route('/')
-def hello():
+def homepage():
     inp_fo = open("organizations.yaml").read()  # Read the Yaml File
     organizations = yaml.load(inp_fo)
     organizations = organizations['organizations']
     return render_template('index.html', organizations=organizations)
 
 
-@app.route('/organizations/<int:organization_id>/delete', methods=['POST'])
-def delete_organization(organization_id):
-    yaml = YAML()
-    inp_fo = open("organizations.yaml").read()  # Read the Yaml File
-    code = yaml.load(inp_fo)
-    organizations = code['organizations']
-    organizations_list = list(organizations)
-    organizations_list.pop(organization_id)
-    code['organizations'] = organizations_list
-    inp_fo2 = open("organizations.yaml","w") #Open the file for Write
-    yaml.dump(code,inp_fo2)
-    inp_fo2.close()
-    return redirect(url_for('hello'))
-
 @app.route('/organizations', methods=['GET','POST'])
 def new_organization():
     if request.method == 'GET':
-        redirect(url_for('hello'))
+        redirect(url_for('homepage'))
     elif request.method == 'POST':
         # Get form data
         name = request.form['name']
@@ -54,12 +40,13 @@ def new_organization():
         file_to_write.close()
         
         # Redirect to homepage
-        return redirect(url_for('hello'))
+        return redirect(url_for('homepage'))
+
 
 @app.route('/organizations/<int:organization_id>', methods=['GET','POST'])
 def update_organization(organization_id):
     if request.method == 'GET':
-        redirect(url_for('hello'))
+        redirect(url_for('homepage'))
     elif request.method == 'POST':
         # Get form data
         name = request.form['name']
@@ -82,8 +69,22 @@ def update_organization(organization_id):
         file_to_write.close()
         
         # Redirect to homepage
-        return redirect(url_for('hello'))
+        return redirect(url_for('homepage'))
 
+
+@app.route('/organizations/<int:organization_id>/delete', methods=['POST'])
+def delete_organization(organization_id):
+    yaml = YAML()
+    file_data = open("organizations.yaml").read()  # Read the Yaml File
+    code = yaml.load(file_data)
+    organizations = code['organizations']
+    organizations_list = list(organizations)
+    organizations_list.pop(organization_id)
+    code['organizations'] = organizations_list
+    file_to_write = open("organizations.yaml","w") #Open the file for Write
+    yaml.dump(code, file_to_write)
+    file_to_write.close()
+    return redirect(url_for('homepage'))
 
 if __name__ == '__main__':
     app.run()

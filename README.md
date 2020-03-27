@@ -2,7 +2,11 @@
 
 ### To run the app:
 
-- `python3 -m venv venv`
-- `pip install requirements.txt`
-- `flask run`
+Create a virtual environment:
+`python3 -m venv venv`
+Install dependencies:
+`pip install requirements.txt`
+Run the app:
+`flask run`
+
 - Visit `http://localhost:5000/`
